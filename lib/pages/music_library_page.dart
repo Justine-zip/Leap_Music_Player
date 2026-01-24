@@ -19,9 +19,25 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: CircleIcon(icon: Icons.play_arrow, iconSize: 28),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  CircleIcon(
+                    icon: Icons.play_arrow_rounded,
+                    iconSize: 34,
+                    onTap: () {
+                      //Play Music
+                    },
+                  ),
+                  SizedBox(width: 8),
+                  CircleIcon(
+                    icon: Icons.shuffle_rounded,
+                    iconSize: 15,
+                    onTap: () {
+                      //Play Music
+                    },
+                  ),
+                ],
               ),
             ),
             SizedBox(height: 20),

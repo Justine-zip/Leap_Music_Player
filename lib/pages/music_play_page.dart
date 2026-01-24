@@ -22,18 +22,33 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 48.0),
                 child: Center(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    height: MediaQuery.of(context).size.width * .6,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      //Music Albums or Songs
-                      child: Center(child: SizedBox()),
-                    ),
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        height: MediaQuery.of(context).size.width * .6,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          //Music Albums or Songs
+                          child: Center(child: SizedBox()),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 20,
+                        right: 20,
+                        child: CircleIcon(
+                          icon: Icons.favorite_rounded,
+                          iconSize: 16,
+                          onTap: () {
+                            //Add music to library
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -42,6 +57,11 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
               Text(
                 widget.title,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              SizedBox(height: 2),
+              Text(
+                'Artist',
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
               ),
               SizedBox(height: 30),
               Padding(

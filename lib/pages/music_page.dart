@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:leap/components/music_list.dart';
+import 'package:leap/components/music_list_builder.dart';
 import 'package:leap/components/my_searchbox.dart';
 
 class MusicPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class _MusicPageState extends State<MusicPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 100),
+        padding: const EdgeInsets.fromLTRB(12, 100, 12, 0),
         child: Column(
           children: [
             Container(
@@ -32,7 +32,7 @@ class _MusicPageState extends State<MusicPage> {
             ),
             SizedBox(height: 30),
             MySearchbox(hint: 'Search...'),
-            Expanded(child: MusicList()),
+            Expanded(child: MusicListBuilder()),
           ],
         ),
       ),

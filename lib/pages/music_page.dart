@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leap/components/music_list.dart';
 import 'package:leap/components/my_searchbox.dart';
 
 class MusicPage extends StatefulWidget {
@@ -31,6 +32,7 @@ class _MusicPageState extends State<MusicPage> {
             ),
             SizedBox(height: 30),
             MySearchbox(hint: 'Search...'),
+            Expanded(child: MusicList()),
           ],
         ),
       ),

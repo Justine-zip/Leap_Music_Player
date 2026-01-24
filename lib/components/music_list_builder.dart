@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:leap/models/music.dart';
+import 'package:leap/pages/music_play_page.dart';
+import 'package:page_animation_transition/animations/right_to_left_transition.dart';
+import 'package:page_animation_transition/page_animation_transition.dart';
 
 class MusicListBuilder extends StatelessWidget {
   MusicListBuilder({super.key});
@@ -29,27 +32,41 @@ class MusicListBuilder extends StatelessWidget {
     return ListView.builder(
       itemCount: musicList.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[900],
-              borderRadius: BorderRadius.circular(8),
+        return GestureDetector(
+          onTap: () {
+            debugPrint('Music Title: ${musicList[index].title}');
+            Navigator.of(context).push(
+              PageAnimationTransition(
+                page: MusicPlayPage(
+                  title: musicList[index].title,
+                  duration: musicList[index].duration,
+                ),
+                pageAnimationType: RightToLeftTransition(),
+              ),
+            );
+          },
+          child: ListTile(
+            leading: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                //Music Thumbnail
+                child: Text('IMG'),
+              ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              //Music Thumbnail
-              child: Text('IMG'),
-            ),
-          ),
-          title: Text(musicList[index].title),
-          trailing: SizedBox(
-            width: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(musicList[index].duration),
-                Icon(Icons.play_arrow),
-              ],
+            title: Text(musicList[index].title),
+            trailing: SizedBox(
+              width: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(musicList[index].duration),
+                  Icon(Icons.play_arrow),
+                ],
+              ),
             ),
           ),
         );

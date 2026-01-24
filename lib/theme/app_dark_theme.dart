@@ -7,7 +7,10 @@ final ThemeData darkTheme = ThemeData(
     primaryContainer: Colors.grey[900],
     seedColor: Colors.black,
     brightness: Brightness.dark,
-  ).copyWith(tertiary: Colors.deepPurple[300]),
+  ).copyWith(
+    secondary: Colors.deepPurple[300],
+    tertiary: Colors.deepPurple[300],
+  ),
   tabBarTheme: TabBarTheme(
     labelColor: Colors.deepPurple[300],
     indicator: BoxDecoration(),

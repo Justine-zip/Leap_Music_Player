@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leap/components/circle_icon.dart';
 import 'package:leap/pages/music_library_page.dart';
 import 'package:leap/pages/music_page.dart';
 
@@ -17,20 +18,7 @@ class HomePage extends StatelessWidget {
           Positioned(
             top: 20,
             left: 20,
-            child: GestureDetector(
-              onTap: () {
-                //Change Themes
-              },
-              child: Material(
-                elevation: 1,
-                borderRadius: BorderRadius.circular(24),
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Icon(Icons.sunny),
-                ),
-              ),
-            ),
+            child: CircleIcon(icon: Icons.sunny, iconSize: 24, onTap: () {}),
           ),
           Positioned(
             bottom: 20,

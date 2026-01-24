@@ -18,13 +18,21 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
         child: Column(
           children: [
             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                'LEAP where your music lives.',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 42),
+              ),
+            ),
+            SizedBox(height: 10),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   CircleIcon(
                     icon: Icons.play_arrow_rounded,
-                    iconSize: 34,
+                    iconSize: 42,
                     onTap: () {
                       //Play Music
                     },

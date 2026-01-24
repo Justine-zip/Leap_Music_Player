@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leap/pages/music_library_page.dart';
+import 'package:leap/pages/music_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,24 +12,24 @@ class HomePage extends StatelessWidget {
       child: Stack(
         children: [
           Scaffold(
-            body: const TabBarView(
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text(
-                        'L E A P  M S X',
-                        style: TextStyle(
-                          fontSize: 42,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
+            body: const TabBarView(children: [MusicPage(), MusicLibraryPage()]),
+          ),
+          Positioned(
+            top: 20,
+            left: 20,
+            child: GestureDetector(
+              onTap: () {
+                //Change Themes
+              },
+              child: Material(
+                elevation: 1,
+                borderRadius: BorderRadius.circular(24),
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Icon(Icons.sunny),
                 ),
-                Icon(Icons.library_music_rounded),
-              ],
+              ),
             ),
           ),
           Positioned(

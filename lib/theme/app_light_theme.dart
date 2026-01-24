@@ -4,7 +4,7 @@ final ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: Colors.white,
   colorScheme: ColorScheme.fromSeed(
-    primaryContainer: Colors.grey[200],
+    primaryContainer: Colors.grey[100],
     seedColor: Colors.white,
     brightness: Brightness.light,
   ),

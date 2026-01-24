@@ -2,6 +2,8 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:leap/pages/home_page.dart';
+import 'package:leap/theme/app_dark_theme.dart';
+import 'package:leap/theme/app_light_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +19,8 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: HomePage(),
     );
   }

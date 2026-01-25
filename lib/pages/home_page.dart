@@ -27,7 +27,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             top: 20,
             left: 20,
             child: CircleIcon(
-              icon: Icons.sunny,
+              icon: themes ? Icons.wb_sunny_rounded : Icons.dark_mode_rounded,
               iconSize: 24,
               onTap: () {
                 ref.read(themeProvider.notifier).toggleTheme();

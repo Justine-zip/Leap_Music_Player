@@ -134,6 +134,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
             iconSize: 24,
             onTap: () {
               //Back to previous page
+              Navigator.pop(context);
             },
           ),
         ),

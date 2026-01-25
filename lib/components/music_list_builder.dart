@@ -39,7 +39,7 @@ class MusicListBuilder extends StatelessWidget {
               PageAnimationTransition(
                 page: MusicPlayPage(
                   title: musicList[index].title,
-                  duration: musicList[index].duration,
+                  duration: '${musicList[index].duration}',
                 ),
                 pageAnimationType: RightToLeftTransition(),
               ),
@@ -63,7 +63,7 @@ class MusicListBuilder extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(musicList[index].duration),
+                  Text('${musicList[index].duration}'),
                   Icon(Icons.play_arrow),
                 ],
               ),

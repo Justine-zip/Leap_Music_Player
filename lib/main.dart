@@ -11,6 +11,7 @@ import 'package:leap/theme/app_light_theme.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  debugPrint('Key: ${dotenv.env}');
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,

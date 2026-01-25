@@ -1,14 +1,16 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/pages/home_page.dart';
 import 'package:leap/provider/theme_provider.dart';
 import 'package:leap/theme/app_dark_theme.dart';
 import 'package:leap/theme/app_light_theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,

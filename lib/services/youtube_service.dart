@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:leap/models/music.dart';
 
 class YoutubeService {
-  static const String apiKey = 'AIzaSyCYx2BnArXfiCv4HcAhhQxloK0M6CjCG_w';
+  static final String apiKey = dotenv.env['YOUTUBE_API_KEY'] ?? '';
   static const String baseUrl = 'https://www.googleapis.com/youtube/v3/search';
   static const String basePlaylistUrl =
       'https://www.googleapis.com/youtube/v3/playlistItems';

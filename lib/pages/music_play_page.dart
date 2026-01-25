@@ -3,8 +3,14 @@ import 'package:leap/components/circle_icon.dart';
 
 class MusicPlayPage extends StatefulWidget {
   final String title;
+  final String? thumbnail;
   final String duration;
-  const MusicPlayPage({super.key, required this.title, required this.duration});
+  const MusicPlayPage({
+    super.key,
+    required this.title,
+    required this.duration,
+    this.thumbnail,
+  });
 
   @override
   State<MusicPlayPage> createState() => _MusicPlayPageState();
@@ -26,15 +32,14 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                     children: [
                       Container(
                         width: double.infinity,
+                        height: MediaQuery.of(context).size.width * .55,
                         decoration: BoxDecoration(
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        height: MediaQuery.of(context).size.width * .6,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          //Music Albums or Songs
-                          child: Center(child: SizedBox()),
+                        //Music Albums or Songs
+                        child: SizedBox(
+                          child: Image.network('${widget.thumbnail}'),
                         ),
                       ),
                       Positioned(
@@ -54,9 +59,13 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
               ),
               SizedBox(height: 20),
 
-              Text(
-                widget.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 36.0),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  widget.title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
               ),
               SizedBox(height: 2),
               Text(
@@ -72,7 +81,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [Text('0:00'), Text(widget.duration)],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SliderTheme(
                       data: SliderTheme.of(context).copyWith(
                         thumbShape: const RoundSliderThumbShape(
@@ -93,7 +102,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                 ),
               ),
 
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

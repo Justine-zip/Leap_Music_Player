@@ -7,7 +7,7 @@ import 'package:page_animation_transition/animations/right_to_left_transition.da
 import 'package:page_animation_transition/page_animation_transition.dart';
 
 class MusicListBuilder extends ConsumerStatefulWidget {
-  MusicListBuilder({super.key});
+  const MusicListBuilder({super.key});
 
   @override
   ConsumerState<MusicListBuilder> createState() => _MusicListBuilderState();
@@ -49,6 +49,7 @@ class _MusicListBuilderState extends ConsumerState<MusicListBuilder> {
                     PageAnimationTransition(
                       page: MusicPlayPage(
                         title: playlist[index].title,
+                        thumbnail: '${playlist[index].thumbnail}',
                         duration: '${playlist[index].duration}',
                       ),
                       pageAnimationType: RightToLeftTransition(),
@@ -61,13 +62,26 @@ class _MusicListBuilderState extends ConsumerState<MusicListBuilder> {
                       color: Colors.grey[900],
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      //Music Thumbnail
-                      child: Text('IMG'),
-                    ),
+                    child:
+                        playlist[index].thumbnail != null
+                            ? SizedBox(
+                              width: 40,
+                              height: 30,
+                              child: Image.network(
+                                '${playlist[index].thumbnail}',
+                              ),
+                            )
+                            : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              //Music Thumbnail
+                              child: Text('IMG'),
+                            ),
                   ),
-                  title: Text(playlist[index].title),
+                  title: Text(
+                    playlist[index].title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   trailing: SizedBox(
                     width: 60,
                     child: Row(

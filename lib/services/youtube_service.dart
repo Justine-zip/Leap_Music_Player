@@ -7,7 +7,8 @@ import 'package:leap/models/music.dart';
 class YoutubeService {
   static const String apiKey = 'AIzaSyCYx2BnArXfiCv4HcAhhQxloK0M6CjCG_w';
   static const String baseUrl = 'https://www.googleapis.com/youtube/v3/search';
-  static const String basePlaylistUrl = '';
+  static const String basePlaylistUrl =
+      'https://www.googleapis.com/youtube/v3/playlistItems';
 
   Future<List<Music>> fetchTopPlaylist() async {
     final uri = Uri.parse(
@@ -19,17 +20,31 @@ class YoutubeService {
       '&key=$apiKey',
     );
 
-    final response = await http.get(uri);
+    final baseResponse = await http.get(uri);
 
-    if (response.statusCode != 200) {
+    if (baseResponse.statusCode != 200) {
       throw Exception('Failed to fetch data');
     }
 
-    final data = json.decode(response.body);
-    debugPrint('data: $data');
+    final baseData = json.decode(baseResponse.body);
+    debugPrint('data: $baseData');
 
-    final items = data['items'] as List;
+    final playlistId = baseData['items'][0]['id']['playlistId'];
 
-    return items.map((item) => Music.fromJson(item)).toList();
+    final playlistUri = Uri.parse(
+      '$basePlaylistUrl'
+      '?part=snippet'
+      '&playlistId=$playlistId'
+      '&maxResults=10'
+      '&key=$apiKey',
+    );
+
+    final response = await http.get(playlistUri);
+
+    final playlistData = json.decode(response.body);
+
+    final playlistItems = playlistData['items'] as List;
+
+    return playlistItems.map((item) => Music.fromJson(item)).toList();
   }
 }

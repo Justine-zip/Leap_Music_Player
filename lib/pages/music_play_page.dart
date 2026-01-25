@@ -3,11 +3,13 @@ import 'package:leap/components/circle_icon.dart';
 
 class MusicPlayPage extends StatefulWidget {
   final String title;
+  final String owner;
   final String? thumbnail;
   final String duration;
   const MusicPlayPage({
     super.key,
     required this.title,
+    required this.owner,
     required this.duration,
     this.thumbnail,
   });
@@ -69,7 +71,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
               ),
               SizedBox(height: 2),
               Text(
-                'Artist',
+                widget.owner,
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
               ),
               SizedBox(height: 30),

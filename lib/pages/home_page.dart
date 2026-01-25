@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/components/circle_icon.dart';
 import 'package:leap/pages/music_library_page.dart';
 import 'package:leap/pages/music_page.dart';
+import 'package:leap/provider/theme_provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
   Widget build(BuildContext context) {
+    final themes = ref.watch(themeProvider);
     return DefaultTabController(
       length: 2,
       child: Stack(
@@ -18,7 +26,14 @@ class HomePage extends StatelessWidget {
           Positioned(
             top: 20,
             left: 20,
-            child: CircleIcon(icon: Icons.sunny, iconSize: 24, onTap: () {}),
+            child: CircleIcon(
+              icon: Icons.sunny,
+              iconSize: 24,
+              onTap: () {
+                ref.read(themeProvider.notifier).toggleTheme();
+                debugPrint('Theme: $themes');
+              },
+            ),
           ),
           Positioned(
             bottom: 20,

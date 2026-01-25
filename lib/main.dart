@@ -1,13 +1,19 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/pages/home_page.dart';
 import 'package:leap/theme/app_dark_theme.dart';
 import 'package:leap/theme/app_light_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(DevicePreview(enabled: !kReleaseMode, builder: (context) => MyApp()));
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => ProviderScope(child: MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

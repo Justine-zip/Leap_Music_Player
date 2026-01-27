@@ -24,9 +24,11 @@ class _MusicListBuilderState extends ConsumerState<MusicListBuilder> {
               return GestureDetector(
                 onTap: () {
                   debugPrint('Music Title: ${playlist[index].title}');
+
                   Navigator.of(context).push(
                     PageAnimationTransition(
                       page: MusicPlayPage(
+                        id: playlist[index].id,
                         title: playlist[index].title,
                         owner: playlist[index].owner,
                         thumbnail: '${playlist[index].thumbnail}',

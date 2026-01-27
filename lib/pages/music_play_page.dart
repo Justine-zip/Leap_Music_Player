@@ -1,13 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:leap/components/circle_icon.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class MusicPlayPage extends StatefulWidget {
+  final String id;
   final String title;
   final String owner;
   final String? thumbnail;
   final String duration;
   const MusicPlayPage({
     super.key,
+    required this.id,
     required this.title,
     required this.owner,
     required this.duration,
@@ -19,10 +24,63 @@ class MusicPlayPage extends StatefulWidget {
 }
 
 class _MusicPlayPageState extends State<MusicPlayPage> {
+  YoutubePlayerController? controller;
+  bool isPlaying = true;
+
+  double currentSeconds = 0;
+  double totalSeconds = 1;
+
+  Timer? progressTimer;
+
+  void startFakeProgress() {
+    progressTimer?.cancel();
+    progressTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (!mounted) return;
+
+      setState(() {
+        if (currentSeconds < totalSeconds) {
+          currentSeconds += 1;
+        }
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = YoutubePlayerController.fromVideoId(
+      videoId: widget.id,
+      autoPlay: true,
+      params: YoutubePlayerParams(
+        enableJavaScript: true,
+        mute: false,
+        showControls: false,
+        showFullscreenButton: false,
+
+        origin: 'https://www.youtube-nocookie.com',
+      ),
+    );
+
+    controller!.listen((value) {
+      setState(() {
+        totalSeconds = value.metaData.duration.inSeconds.toDouble();
+      });
+    });
+
+    startFakeProgress();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        SizedBox(
+          width: 1,
+          height: 1,
+          child: YoutubePlayer(controller: controller!),
+        ),
+
         Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -32,16 +90,19 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                 child: Center(
                   child: Stack(
                     children: [
-                      Container(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.width * .55,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        //Music Albums or Songs
-                        child: SizedBox(
-                          child: Image.network('${widget.thumbnail}'),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.width * .55,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          //Music Albums or Songs
+                          child: SizedBox(
+                            child: Image.network('${widget.thumbnail}'),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -81,7 +142,15 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [Text('0:00'), Text(widget.duration)],
+                      children: [
+                        Text(
+                          '${(currentSeconds ~/ 60).toString().padLeft(1, '0')}:${(currentSeconds % 60).toInt().toString().padLeft(2, '0')}',
+                        ),
+
+                        Text(
+                          '${(totalSeconds ~/ 60).toString().padLeft(1, '0')}:${(totalSeconds % 60).toInt().toString().padLeft(2, '0')}',
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     SliderTheme(
@@ -92,11 +161,12 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                         overlayShape: SliderComponentShape.noOverlay,
                       ),
                       child: Slider(
-                        value: 30,
+                        value: currentSeconds.clamp(0, totalSeconds),
                         min: 0,
-                        max: 100,
+                        max: totalSeconds,
                         onChanged: (value) {
                           //Music Length
+                          controller!.seekTo(seconds: value);
                         },
                       ),
                     ),
@@ -117,10 +187,20 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                   ),
                   SizedBox(width: 12),
                   CircleIcon(
-                    icon: Icons.play_arrow_rounded,
+                    icon:
+                        isPlaying
+                            ? Icons.pause_rounded
+                            : Icons.play_arrow_rounded,
                     iconSize: 60,
                     onTap: () {
-                      //Music Play
+                      setState(() {
+                        if (isPlaying) {
+                          controller!.pauseVideo();
+                        } else {
+                          controller!.playVideo();
+                        }
+                        isPlaying = !isPlaying;
+                      });
                     },
                   ),
                   SizedBox(width: 12),

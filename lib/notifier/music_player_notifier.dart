@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:leap/provider/fake_timer_provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class MusicPlayerNotifier extends Notifier<YoutubePlayerController?> {
@@ -22,11 +23,42 @@ class MusicPlayerNotifier extends Notifier<YoutubePlayerController?> {
           origin: 'https://www.youtube-nocookie.com',
         ),
       );
+      state!.listen((event) {
+        // When video starts playing, start the fake timer
+        if (event.playerState == PlayerState.playing) {
+          ref.read(fakeTimerProvider.notifier).resume();
+
+          final duration = event.metaData.duration.inSeconds.toDouble();
+          if (duration > 0) {
+            ref.read(fakeTimerProvider.notifier).totalSeconds = duration;
+          }
+        }
+
+        if (event.playerState == PlayerState.paused) {
+          ref.read(fakeTimerProvider.notifier).pause();
+        }
+
+        if (event.playerState == PlayerState.ended) {
+          ref.read(fakeTimerProvider.notifier).stop();
+        }
+      });
     } else {
       state!.loadVideoById(videoId: videoId);
+      ref.read(fakeTimerProvider.notifier).startFakeProgress();
     }
   }
 
-  void pause() => state?.pauseVideo();
-  void resume() => state?.playVideo();
+  double getDuration() {
+    return state!.value.metaData.duration.inSeconds.toDouble();
+  }
+
+  void pause() {
+    state?.pauseVideo();
+    ref.read(fakeTimerProvider.notifier).pause();
+  }
+
+  void resume() {
+    state?.playVideo();
+    ref.read(fakeTimerProvider.notifier).resume();
+  }
 }

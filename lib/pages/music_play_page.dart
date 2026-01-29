@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/components/circle_icon.dart';
+import 'package:leap/provider/fake_timer_provider.dart';
 import 'package:leap/provider/music_player_provider.dart';
 
 class MusicPlayPage extends ConsumerStatefulWidget {
@@ -28,29 +27,7 @@ class _MusicPlayPageState extends ConsumerState<MusicPlayPage> {
   bool isPlaying = true;
 
   double currentSeconds = 0;
-  double totalSeconds = 1;
-
-  Timer? progressTimer;
-
-  void startFakeProgress() {
-    progressTimer?.cancel();
-    progressTimer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (!mounted) return;
-
-      setState(() {
-        if (currentSeconds < totalSeconds) {
-          currentSeconds += 1;
-        }
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    startFakeProgress();
-  }
+  double totalSeconds = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +36,8 @@ class _MusicPlayPageState extends ConsumerState<MusicPlayPage> {
     if (musicPlayer == null) {
       return const SizedBox();
     }
+    currentSeconds = ref.watch(fakeTimerProvider);
+    totalSeconds = ref.read(fakeTimerProvider.notifier).totalSeconds;
     return Stack(
       children: [
         Scaffold(

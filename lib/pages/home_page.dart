@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/components/circle_icon.dart';
 import 'package:leap/pages/music_library_page.dart';
 import 'package:leap/pages/music_page.dart';
+import 'package:leap/provider/music_player_provider.dart';
 import 'package:leap/provider/theme_provider.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -15,6 +17,10 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final controller = ref.watch(musicPlayerProvider);
+    debugPrint(
+      'Controller Status: ${controller != null ? 'active' : 'inactive'}',
+    );
     final themes = ref.watch(themeProvider);
     return DefaultTabController(
       length: 2,
@@ -23,6 +29,15 @@ class _HomePageState extends ConsumerState<HomePage> {
           Scaffold(
             body: const TabBarView(children: [MusicPage(), MusicLibraryPage()]),
           ),
+          if (controller != null)
+            Offstage(
+              offstage: true,
+              child: SizedBox(
+                width: 300,
+                height: 200,
+                child: YoutubePlayer(controller: controller),
+              ),
+            ),
           Positioned(
             top: 20,
             left: 20,

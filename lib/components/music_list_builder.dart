@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/pages/music_play_page.dart';
+import 'package:leap/provider/music_player_provider.dart';
 import 'package:leap/provider/youtube_provider.dart';
 import 'package:page_animation_transition/animations/right_to_left_transition.dart';
 import 'package:page_animation_transition/page_animation_transition.dart';
@@ -24,7 +25,9 @@ class _MusicListBuilderState extends ConsumerState<MusicListBuilder> {
               return GestureDetector(
                 onTap: () {
                   debugPrint('Music Title: ${playlist[index].title}');
-
+                  ref
+                      .read(musicPlayerProvider.notifier)
+                      .play(playlist[index].id);
                   Navigator.of(context).push(
                     PageAnimationTransition(
                       page: MusicPlayPage(

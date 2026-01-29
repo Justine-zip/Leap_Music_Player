@@ -36,7 +36,7 @@ class YoutubeService {
       '$basePlaylistUrl'
       '?part=snippet'
       '&playlistId=$playlistId'
-      '&maxResults=10'
+      '&maxResults=30'
       '&key=$apiKey',
     );
 

@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/components/circle_icon.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:leap/provider/music_player_provider.dart';
 
-class MusicPlayPage extends StatefulWidget {
+class MusicPlayPage extends ConsumerStatefulWidget {
   final String id;
   final String title;
   final String owner;
@@ -20,11 +21,10 @@ class MusicPlayPage extends StatefulWidget {
   });
 
   @override
-  State<MusicPlayPage> createState() => _MusicPlayPageState();
+  ConsumerState<MusicPlayPage> createState() => _MusicPlayPageState();
 }
 
-class _MusicPlayPageState extends State<MusicPlayPage> {
-  YoutubePlayerController? controller;
+class _MusicPlayPageState extends ConsumerState<MusicPlayPage> {
   bool isPlaying = true;
 
   double currentSeconds = 0;
@@ -49,38 +49,18 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
   void initState() {
     super.initState();
 
-    controller = YoutubePlayerController.fromVideoId(
-      videoId: widget.id,
-      autoPlay: true,
-      params: YoutubePlayerParams(
-        enableJavaScript: true,
-        mute: false,
-        showControls: false,
-        showFullscreenButton: false,
-
-        origin: 'https://www.youtube-nocookie.com',
-      ),
-    );
-
-    controller!.listen((value) {
-      setState(() {
-        totalSeconds = value.metaData.duration.inSeconds.toDouble();
-      });
-    });
-
     startFakeProgress();
   }
 
   @override
   Widget build(BuildContext context) {
+    final musicPlayer = ref.watch(musicPlayerProvider);
+
+    if (musicPlayer == null) {
+      return const SizedBox();
+    }
     return Stack(
       children: [
-        SizedBox(
-          width: 1,
-          height: 1,
-          child: YoutubePlayer(controller: controller!),
-        ),
-
         Scaffold(
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -166,7 +146,7 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                         max: totalSeconds,
                         onChanged: (value) {
                           //Music Length
-                          controller!.seekTo(seconds: value);
+                          musicPlayer.seekTo(seconds: value);
                         },
                       ),
                     ),
@@ -195,9 +175,9 @@ class _MusicPlayPageState extends State<MusicPlayPage> {
                     onTap: () {
                       setState(() {
                         if (isPlaying) {
-                          controller!.pauseVideo();
+                          ref.read(musicPlayerProvider.notifier).pause();
                         } else {
-                          controller!.playVideo();
+                          ref.read(musicPlayerProvider.notifier).resume();
                         }
                         isPlaying = !isPlaying;
                       });

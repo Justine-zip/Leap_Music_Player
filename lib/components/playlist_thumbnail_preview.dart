@@ -3,15 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:leap/provider/youtube_provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class PlaylistVideoPreview extends ConsumerStatefulWidget {
-  const PlaylistVideoPreview({super.key});
+class PlaylistThumbnailPreview extends ConsumerStatefulWidget {
+  const PlaylistThumbnailPreview({super.key});
 
   @override
-  ConsumerState<PlaylistVideoPreview> createState() =>
-      _PlaylistVideoPreviewState();
+  ConsumerState<PlaylistThumbnailPreview> createState() =>
+      _PlaylistThumbnailPreviewState();
 }
 
-class _PlaylistVideoPreviewState extends ConsumerState<PlaylistVideoPreview> {
+class _PlaylistThumbnailPreviewState
+    extends ConsumerState<PlaylistThumbnailPreview> {
   YoutubePlayerController? controller;
   String? currentVideoId;
   bool isPlaying = false;
